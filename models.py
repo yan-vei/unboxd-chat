@@ -1,4 +1,3 @@
-from app import db
 from flask_bcrypt import generate_password_hash, check_password_hash
 from sqlalchemy.dialects.postgresql import ARRAY
 from flask_sqlalchemy import SQLAlchemy
@@ -59,3 +58,19 @@ class Listing(db.Model):
 	style = db.Column(db.String(100), nullable=True)
 	newColors = db.Column(ARRAY(db.String), nullable=True, default=[])
 	newStyles = db.Column(ARRAY(db.String), nullable=True, default=[])
+ 
+ 
+class ChatRoom(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    listing_id = db.Column(db.Integer, db.ForeignKey('listing.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    room_admin_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    status = db.Column(db.String(64), nullable=False)
+    
+    
+class Chat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String, nullable=False)
+    sent_at = db.Column(db.DateTime, nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    chat_room_id = db.Column(db.Integer, db.ForeignKey('chat_room.id'), nullable=False)
