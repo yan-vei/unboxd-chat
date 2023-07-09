@@ -1,9 +1,5 @@
 from flask_bcrypt import generate_password_hash, check_password_hash
 from sqlalchemy.dialects.postgresql import ARRAY
-from flask_sqlalchemy import SQLAlchemy
-
-
-db = SQLAlchemy()
 
 
 class User(db.Model):
